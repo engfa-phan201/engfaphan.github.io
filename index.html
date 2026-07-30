@@ -1001,15 +1001,76 @@
         #cursor-trail {
           display: none;
         }
+        .guestbook {
+          margin-top: 60px;
+          padding-top: 40px;
+          border-top: 1px solid var(--border);
+          grid-column: 1/-1;
+        }
+        .gb-form {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          max-width: 480px;
+          margin-bottom: 24px;
+        }
+        .gb-toggle {
+          font-family: "DM Mono", monospace;
+          font-size: 0.72rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 10px 20px;
+          border: 1px solid var(--border);
+          background: transparent;
+          color: var(--muted);
+          border-radius: 3px;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-bottom: 16px;
+        }
+        .gb-toggle:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
+        .comments-box {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .comments-box.open {
+          max-height: 1000px;
+        }
+        .comment-item {
+          padding: 16px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .comment-item:last-child {
+          border-bottom: none;
+        }
+        .comment-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 6px;
+        }
+        .comment-name {
+          font-weight: 500;
+          font-size: 0.9rem;
+          color: var(--accent);
+        }
+        .comment-time {
+          font-family: "DM Mono", monospace;
+          font-size: 0.65rem;
+          color: var(--muted);
+        }
+        .comment-msg {
+          font-size: 0.88rem;
+          color: var(--muted);
+          line-height: 1.6;
+        }
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
-      emailjs.init("YOUR_PUBLIC_KEY");
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-      // Thay YOUR_PUBLIC_KEY bằng key từ emailjs.com
       emailjs.init("YOUR_PUBLIC_KEY");
     </script>
   </head>
@@ -1076,7 +1137,7 @@
         <div class="hero-photo-wrap">
           <div class="hero-photo-frame">
             <img
-              src="hinanh/22052006.jpg"
+              src=""
               alt="Engfa Phan"
               onerror="
                 this.style.display = 'none';
@@ -1326,7 +1387,7 @@
               engfaphan@gmail.com
             </a>
             <a
-              href="https://github.com/engfaphan"
+              href="https://github.com/engfa-phan201/engfaphan.github.io"
               target="_blank"
               class="contact-link"
             >
@@ -1381,6 +1442,34 @@
           <button class="form-submit" onclick="sendForm()">
             Send Message →
           </button>
+        </div>
+        <div class="guestbook">
+          <div class="gb-form">
+            <div class="section-label">Guest Book</div>
+            <div class="form-group">
+              <label class="form-label">Your name</label>
+              <input
+                type="text"
+                class="form-input"
+                id="c-name"
+                placeholder="******"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea
+                class="form-textarea"
+                id="c-msg"
+                placeholder=".............."
+              ></textarea>
+            </div>
+            <button class="form-submit" id="c-submit" onclick="submitComment()">
+              Send →
+            </button>
+          </div>
+          <div class="comments-box" id="comments-box">
+            <div id="comments-list"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -1539,6 +1628,81 @@
               "Gửi thất bại! Vui lòng thử lại hoặc email trực tiếp: engfaphan@gmail.com",
             );
           });
+        async function loadComments() {
+          const res = await fetch("/comment");
+          const data = await res.json();
+          const box = document.getelementById("comments-list");
+          const count = document.getAElementById("comment-count");
+          count.textContent = data.length;
+
+          if (data.Length === 0) {
+            box.innerHTML =
+              '<p style="color:var(--muted); font-size:0.85rem">No messages yet. Be the first one!</p>';
+            return;
+          }
+          box.innerHTML = data
+            .map(
+              (c) => `
+            <div class="comment-item">
+              <div class="comment-header">
+                <span class="comment-name">${c.name}</span>
+              <Span class="comment-time">$formatime(c.time)}</span>
+                </div>
+                <p class="comment-msg">${c.message}</p>
+                </div>
+            `,
+            )
+            .join("");
+        }
+        /*comment*/
+        async function submitComment() {
+          const name = document.getElementById("c-name").value.trim();
+          const message = document.getElementById("c-msg").value.trim();
+          if (!name || !message) {
+            alret("Please fill it out completely!");
+            return;
+          }
+          const btn = document.getElementById("c-submit");
+          btn.disabled = true;
+          btn.TextContent = "Sending...";
+          const res = await fetch("/comment/add", {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: Json.stringfy({ name, message }),
+          });
+          if (res.ok) {
+            document.getElementById("c-name").value = "";
+            document.getElementById(c - message).value = "";
+            btn.TextContent = "Sent✓";
+            btn.style.background = "#22c55e";
+            loadComment();
+            setTimeout(() => {
+              btn.textContent = "Send →";
+              btn.style.background = "";
+              btn.disabled = false;
+            }, 2000);
+          }
+        }
+        /*format*/
+        function formatTime(ts) {
+          const d = new Date(ts);
+          return d.toLocaleDateString("vi-VN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numecric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        }
+        /* toggle*/
+        function toggleComents() {
+          const box = document.getElementById("comment-box");
+          const btn = document.getElementById("toggle-comment");
+          const isOpen = box.classList.toggle("open");
+          btn.textContent = isOpen ? "▲Hide message" : "▼View all messages";
+          if (isOpen) loadComments();
+        }
+        loadComments();
       }
     </script>
   </body>
