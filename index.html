@@ -1162,10 +1162,10 @@
           >
         </h2>
         <p>
-          I'm Engfa Phan, a first-year Software Engineering student based in Tra
-          Vinh, Vietnam. I care deeply about the intersection of design and code
-          — building things that are not just functional, but genuinely pleasant
-          to use.
+          I'm Engfa Phan, a second-year Software Engineering student based in
+          Tra Vinh, Vietnam. I care deeply about the intersection of design and
+          code — building things that are not just functional, but genuinely
+          pleasant to use.
         </p>
         <p>
           When I'm not studying, you'll find me experimenting with new
@@ -1443,34 +1443,6 @@
             Send Message →
           </button>
         </div>
-        <div class="guestbook">
-          <div class="gb-form">
-            <div class="section-label">Guest Book</div>
-            <div class="form-group">
-              <label class="form-label">Your name</label>
-              <input
-                type="text"
-                class="form-input"
-                id="c-name"
-                placeholder="******"
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Message</label>
-              <textarea
-                class="form-textarea"
-                id="c-msg"
-                placeholder=".............."
-              ></textarea>
-            </div>
-            <button class="form-submit" id="c-submit" onclick="submitComment()">
-              Send →
-            </button>
-          </div>
-          <div class="comments-box" id="comments-box">
-            <div id="comments-list"></div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -1483,7 +1455,7 @@
         </div>
       </div>
       <div class="footer-links">
-        <a href="">Email</a>
+        <a href="mailto:engfaphan@gmail.com">Email</a>
         <a href="https://github.com/engfaphan" target="_blank">GitHub</a>
       </div>
       <div class="footer-note">© 2026 — All rights reserved</div>
@@ -1592,21 +1564,32 @@
       fills.forEach((f) => skillObs.observe(f));
 
       // ── CONTACT FORM ──
-      // sendForm = alias của sendMessage (dùng cùng 1 hàm)
       function sendForm() {
         sendMessage();
       }
+
       function sendMessage() {
+        const btn = document.querySelector(".form-submit");
         const n = document.getElementById("fname").value.trim();
         const e = document.getElementById("femail").value.trim();
         const m = document.getElementById("fmsg").value.trim();
+
+        // Validation
         if (!n || !e || !m) {
-          alert("Vui lòng điền đầy đủ thông tin!");
+          showFormError("Please fill in all fields!");
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+          showFormError("Please enter a valid email address!");
           return;
         }
 
-        // Dùng EmailJS — thay YOUR_SERVICE_ID và YOUR_TEMPLATE_ID
-        // sau khi đăng ký tại emailjs.com
+        // Loading state
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+
+        // Gửi qua EmailJS
+        // Sau khi đăng ký emailjs.com → thay 3 giá trị YOUR_... bên dưới
         emailjs
           .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
             from_name: n,
@@ -1615,94 +1598,44 @@
             to_email: "engfaphan@gmail.com",
           })
           .then(() => {
+            // Thành công
             const msg = document.getElementById("form-msg");
+            msg.textContent = "✓ Message sent! I'll get back to you soon.";
+            msg.style.color = "#22c55e";
             msg.classList.add("show");
+
+            // Reset form
             document.getElementById("fname").value = "";
             document.getElementById("femail").value = "";
             document.getElementById("fmsg").value = "";
-            setTimeout(() => msg.classList.remove("show"), 4000);
-          })
-          .catch((err) => {
-            console.error("EmailJS error:", err);
-            alert(
-              "Gửi thất bại! Vui lòng thử lại hoặc email trực tiếp: engfaphan@gmail.com",
-            );
-          });
-        async function loadComments() {
-          const res = await fetch("/comment");
-          const data = await res.json();
-          const box = document.getelementById("comments-list");
-          const count = document.getAElementById("comment-count");
-          count.textContent = data.length;
 
-          if (data.Length === 0) {
-            box.innerHTML =
-              '<p style="color:var(--muted); font-size:0.85rem">No messages yet. Be the first one!</p>';
-            return;
-          }
-          box.innerHTML = data
-            .map(
-              (c) => `
-            <div class="comment-item">
-              <div class="comment-header">
-                <span class="comment-name">${c.name}</span>
-              <Span class="comment-time">$formatime(c.time)}</span>
-                </div>
-                <p class="comment-msg">${c.message}</p>
-                </div>
-            `,
-            )
-            .join("");
-        }
-        /*comment*/
-        async function submitComment() {
-          const name = document.getElementById("c-name").value.trim();
-          const message = document.getElementById("c-msg").value.trim();
-          if (!name || !message) {
-            alret("Please fill it out completely!");
-            return;
-          }
-          const btn = document.getElementById("c-submit");
-          btn.disabled = true;
-          btn.TextContent = "Sending...";
-          const res = await fetch("/comment/add", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: Json.stringfy({ name, message }),
-          });
-          if (res.ok) {
-            document.getElementById("c-name").value = "";
-            document.getElementById(c - message).value = "";
-            btn.TextContent = "Sent✓";
+            btn.textContent = "Sent ✓";
             btn.style.background = "#22c55e";
-            loadComment();
+
             setTimeout(() => {
-              btn.textContent = "Send →";
+              msg.classList.remove("show");
+              btn.textContent = "Send Message →";
               btn.style.background = "";
               btn.disabled = false;
-            }, 2000);
-          }
-        }
-        /*format*/
-        function formatTime(ts) {
-          const d = new Date(ts);
-          return d.toLocaleDateString("vi-VN", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numecric",
-            hour: "2-digit",
-            minute: "2-digit",
+            }, 4000);
+          })
+          .catch((err) => {
+            // Thất bại
+            console.error("EmailJS error:", err);
+            showFormError(
+              "Failed to send. Please email directly: engfaphan@gmail.com",
+            );
+            btn.textContent = "Send Message →";
+            btn.disabled = false;
           });
-        }
-        /* toggle*/
-        function toggleComents() {
-          const box = document.getElementById("comment-box");
-          const btn = document.getElementById("toggle-comment");
-          const isOpen = box.classList.toggle("open");
-          btn.textContent = isOpen ? "▲Hide message" : "▼View all messages";
-          if (isOpen) loadComments();
-        }
-        loadComments();
+      }
+
+      function showFormError(msg) {
+        const el = document.getElementById("form-msg");
+        el.textContent = "✗ " + msg;
+        el.style.color = "#ef4444";
+        el.classList.add("show");
+        setTimeout(() => el.classList.remove("show"), 4000);
       }
     </script>
   </body>
