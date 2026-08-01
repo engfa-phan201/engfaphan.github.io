@@ -8,7 +8,7 @@ init_db()
 # INDEX
 @app.route("/")
 def index():
-    return render_template("profile_engfa_phan.html")
+    return render_template("index.html")
 
 #  COMMENT 
 @app.route("/comments")
