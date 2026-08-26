@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecturer's Feedback Book</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Josefin+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="book-wrap">
+      <!-- ── HEADER ── -->
+      <div class="book-header">
+        <span class="book-label" id="lbLabel">✦ Lecturer's Feedback Book</span>
+        <div class="book-right">
+          <!-- VI / EN toggle -->
+          <div class="lang-toggle">
+            <button class="lang-btn active" id="lbVI">VI</button>
+            <button class="lang-btn" id="lbEN">EN</button>
+          </div>
+
+          <!-- Draw / Type toggle -->
+          <div class="mode-toggle">
+            <button class="mode-btn active" id="btnDraw">✏ Vẽ</button>
+            <button class="mode-btn" id="btnType">⌨ Gõ</button>
+          </div>
+
+          <span class="page-indicator" id="pageInd">Page 1 / 50</span>
+        </div>
+      </div>
+
+      <!-- ── NOTEBOOK ── -->
+      <div class="book-stage">
+        <div class="notebook" id="notebook">
+          <div class="spine"></div>
+
+          <!-- Page meta -->
+          <div class="page-meta">
+            <span class="page-num" id="pageNum">Page 01</span>
+            <span class="page-date" id="pageDate"></span>
+          </div>
+
+          <!-- DRAW AREA -->
+          <div class="draw-wrap" id="drawWrap">
+            <div class="ruled-lines" id="ruledLines"></div>
+            <canvas id="draw-canvas"></canvas>
+          </div>
+
+          <!-- TYPE AREA -->
+          <div class="type-wrap" id="typeWrap">
+            <textarea
+              class="type-area"
+              id="typeArea"
+              placeholder="Bắt đầu nhập ghi chú, nhận xét...&#10;&#10;Chuyển sang chế độ Vẽ để viết tay."
+            ></textarea>
+            <p class="char-count" id="charCount">0 ký tự</p>
+          </div>
+
+          <!-- SIGNATURE SECTION -->
+          <div class="sig-section">
+            <div class="sig-header">
+              <span class="sig-label" id="sigLabel">Chữ ký giảng viên</span>
+              <button class="sig-toggle" id="sigToggle">+ Thêm chữ ký</button>
+            </div>
+            <div class="sig-canvas-wrap" id="sigWrap">
+              <canvas id="sig-canvas" height="80"></canvas>
+              <div class="sig-actions">
+                <button class="sig-clear" id="sigClearBtn">Xóa</button>
+              </div>
+            </div>
+          </div>
+          <!--PAGE LIST PANEL-->
+          <div class="panel-toggle-bar" id="panelToggleBar">
+            <button class="panel-toggle-btn" id="panelToggleBtn">
+              <span class="panel-toggle-icon" id="panelToggleIcon">↑</span>
+              <span id="panelToggleLabel">Page list</span>
+            </button>
+          </div>
+          <div class="page-panel" id="pagePanel">
+            <div class="page-panel-inner" id="pagePanelInner"></div>
+          </div>
+
+          <!--TOOLBAR DRAW-->
+          <div class="toolbar" id="toolbarDraw">
+            <div class="tool-group">
+              <button class="tb-btn active" id="penBtn">✏ Bút</button>
+              <button class="tb-btn" id="eraserBtn">⬜ Tẩy</button>
+            </div>
+
+            <div class="tool-sep"></div>
+
+            <div class="tool-group" id="colorGroup">
+              <div
+                class="color-dot active"
+                data-color="#1a1a1a"
+                style="background: #1a1a1a"
+                title="Đen"
+              ></div>
+              <div
+                class="color-dot"
+                data-color="#c0392b"
+                style="background: #c0392b"
+                title="Đỏ"
+              ></div>
+              <div
+                class="color-dot"
+                data-color="#1565c0"
+                style="background: #1565c0"
+                title="Xanh dương"
+              ></div>
+              <div
+                class="color-dot"
+                data-color="#2e7d32"
+                style="background: #2e7d32"
+                title="Xanh lá"
+              ></div>
+              <div
+                class="color-dot"
+                data-color="#795548"
+                style="background: #795548"
+                title="Nâu"
+              ></div>
+            </div>
+
+            <div class="tool-sep"></div>
+
+            <div class="tool-group" id="sizeGroup">
+              <button class="size-btn active" data-size="2">S</button>
+              <button class="size-btn" data-size="4">M</button>
+              <button class="size-btn" data-size="7">L</button>
+            </div>
+
+            <div class="action-group">
+              <span class="saved-badge" id="savedBadge1">✓ Đã lưu</span>
+              <button class="action-btn save" id="saveBtn1">
+                💾 <span class="btn-text">Lưu</span>
+              </button>
+              <button class="action-btn clear" id="clearBtn1">
+                🗑 <span class="btn-text">Xóa</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TOOLBAR TYPE -->
+          <div class="toolbar" id="toolbarType" style="display: none">
+            <div class="tool-group">
+              <button class="tb-btn" id="boldBtn"><b>B</b></button>
+              <button class="tb-btn" id="italicBtn" style="font-style: italic">
+                I
+              </button>
+            </div>
+
+            <div class="tool-sep"></div>
+
+            <div class="tool-group" id="fontSizeGroup">
+              <button
+                class="size-btn active"
+                data-fs="16"
+                style="font-size: 13px"
+              >
+                A Vừa
+              </button>
+              <button class="size-btn" data-fs="20" style="font-size: 15px">
+                A Lớn
+              </button>
+              <button class="size-btn" data-fs="13" style="font-size: 10px">
+                A Nhỏ
+              </button>
+            </div>
+
+            <div class="tool-sep"></div>
+
+            <!-- Nút dịch -->
+            <button class="action-btn translate" id="translateBtn">
+              🌐 <span class="btn-text">Dịch</span>
+            </button>
+
+            <div class="action-group">
+              <span class="saved-badge" id="savedBadge2">✓ Đã lưu</span>
+              <button class="action-btn save" id="saveBtn2">
+                💾 <span class="btn-text">Lưu</span>
+              </button>
+              <button class="action-btn clear" id="clearBtn2">
+                🗑 <span class="btn-text">Xóa</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- KẾT QUẢ DỊCH -->
+          <div class="translate-box" id="translateBox" style="display: none">
+            <div class="translate-box-header">
+              <span class="translate-box-lang" id="translateLang">ENGLISH</span>
+              <button class="translate-close" id="translateClose">✕</button>
+            </div>
+            <p class="translate-result" id="translateResult"></p>
+          </div>
+
+          <!-- NAV -->
+          <div class="book-nav">
+            <button class="nav-btn" id="prevBtn" disabled>‹ Trước</button>
+            <div class="page-jump">
+              <input
+                class="page-input"
+                id="pageInput"
+                type="number"
+                min="1"
+                max="50"
+                value="1"
+              />
+              <button class="page-go" id="pageGo">Đi</button>
+            </div>
+            <button class="nav-btn add-page" id="addPageBtn">
+              + Trang mới
+            </button>
+            <button class="nav-btn" id="nextBtn" disabled>Tiếp ›</button>
+          </div>
+        </div>
+        <!-- end .notebook -->
+      </div>
+      <!-- end .book-stage -->
+    </div>
+    <!-- end .book-wrap -->
+
+    <script src="sprict.js"></script>
+  </body>
+</html>
