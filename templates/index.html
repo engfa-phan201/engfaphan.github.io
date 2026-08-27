@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="index" href="indexbook.html" />
     <title>Engfa Phan — Software Engineer</title>
     <meta
       name="description"
@@ -1068,6 +1067,48 @@
           color: var(--muted);
           line-height: 1.6;
         }
+        .book-link {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-top: 1.5rem;
+          padding: 1rem 1.25rem;
+          text-decoration: none;
+          border: 1px solid #c8a96e;
+          border-radius: transparent;
+          cursor: pointer;
+          transition:
+            background 0.2s,
+            transform 0.15s,
+            box-shadow 0.15s;
+
+          box-shadow: 0 4px 12px rgba(200, 169, 110, 0.15);
+        }
+        .book-link:hover {
+          background: rgba(200, 169, 110, 0.06);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(200, 169, 110, 0.25);
+        }
+        .book-link:active {
+          transform: translateY(1px);
+          box-shadow: 0 2px 6px rgba(200, 169, 110, 0.1);
+        }
+        .book-link-title {
+          font-size: 12px;
+          letter-spacing: 3px;
+          color: #c8a96e;
+          text-transform: uppercase;
+          font-family: "Josefin Sans", sans-serif;
+        }
+        .book-link-arrow {
+          margin-left: auto;
+          color: #c8a96e;
+          font-size: 18px;
+          transition: transform 0.2s;
+        }
+        .book-link:hover .book-link-arrow {
+          transform: translateY(5px);
+        }
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1076,6 +1117,11 @@
     </script>
   </head>
   <body>
+    <!--link book-->
+    <a href="indexbook.html" class="book-link"> ✦Teacher Evaluation Book </a>
+    <span class="book-link-title">📖 Lecturer's Feedback Book </span>
+    <span class="book-link-sub">Comments & instructor's signature</span>
+    <span class="book-link-arrow">→</span>
     <!-- CURSOR -->
     <div id="cursor"></div>
     <div id="cursor-trail"></div>
