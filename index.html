@@ -13,7 +13,6 @@
       content="Engfa Phan, Software Engineer, Web Developer, Tra Vinh University, Portfolio"
     />
     <meta name="author" content="Engfa Phan" />
-    <!-- Open Graph cho Facebook/LinkedIn -->
     <meta
       property="og:title"
       content="Engfa Phan — Software Engineer Portfolio"
@@ -24,7 +23,6 @@
     />
     <meta property="og:image" content="hinanh/22052006.jpg" />
     <meta property="og:type" content="website" />
-    <!-- Schema.org cho Google Search -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -44,6 +42,10 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+      emailjs.init("YOUR_PUBLIC_KEY");
+    </script>
     <style>
       :root {
         --ink: #0e0e0f;
@@ -56,7 +58,6 @@
         --border: rgba(14, 14, 15, 0.1);
         --cursor-size: 12px;
       }
-
       *,
       *::before,
       *::after {
@@ -67,7 +68,6 @@
       html {
         scroll-behavior: smooth;
       }
-
       body {
         font-family: "DM Sans", sans-serif;
         background: var(--paper);
@@ -75,8 +75,6 @@
         overflow-x: hidden;
         cursor: none;
       }
-
-      /* ── GRAIN ── */
       body::before {
         content: "";
         position: fixed;
@@ -86,8 +84,6 @@
         z-index: 9999;
         opacity: 0.5;
       }
-
-      /* ── DARK MODE ── */
       body.dark {
         --ink: #f0ece5;
         --paper: #111010;
@@ -99,7 +95,7 @@
         --border: rgba(240, 236, 229, 0.1);
       }
 
-      /* ── CUSTOM CURSOR ── */
+      /* CURSOR */
       #cursor {
         position: fixed;
         width: var(--cursor-size);
@@ -144,7 +140,7 @@
         opacity: 0.5;
       }
 
-      /* ── NAV ── */
+      /* NAV */
       nav {
         position: fixed;
         top: 0;
@@ -164,7 +160,6 @@
       body.dark nav {
         background: rgba(17, 16, 16, 0.8);
       }
-
       .logo {
         font-family: "Playfair Display", serif;
         font-size: 1.3rem;
@@ -176,7 +171,6 @@
         color: var(--accent);
         font-style: normal;
       }
-
       .nav-links {
         display: flex;
         gap: 32px;
@@ -195,7 +189,6 @@
       .nav-links a:hover {
         color: var(--accent);
       }
-
       .mode-btn {
         background: none;
         border: 1px solid var(--border);
@@ -213,7 +206,7 @@
         color: var(--accent);
       }
 
-      /* ── HERO ── */
+      /* HERO */
       .hero {
         min-height: 100vh;
         display: grid;
@@ -221,7 +214,6 @@
         position: relative;
         overflow: hidden;
       }
-
       .hero-left {
         display: flex;
         flex-direction: column;
@@ -230,7 +222,6 @@
         position: relative;
         z-index: 2;
       }
-
       .hero-tag {
         font-family: "DM Mono", monospace;
         font-size: 0.72rem;
@@ -250,7 +241,6 @@
         height: 1px;
         background: var(--accent);
       }
-
       .hero-name {
         font-family: "Playfair Display", serif;
         font-size: clamp(3.2rem, 6vw, 5.5rem);
@@ -264,7 +254,6 @@
       .hero-name span {
         color: var(--accent);
       }
-
       .hero-role {
         font-family: "Playfair Display", serif;
         font-style: italic;
@@ -275,8 +264,6 @@
         animation: fadeUp 0.7s 0.6s forwards;
         min-height: 2em;
       }
-
-      /* Typing cursor */
       .typing-cursor {
         display: inline-block;
         width: 2px;
@@ -295,7 +282,6 @@
           opacity: 0;
         }
       }
-
       .hero-desc {
         font-size: 0.95rem;
         line-height: 1.75;
@@ -305,7 +291,6 @@
         opacity: 0;
         animation: fadeUp 0.7s 0.8s forwards;
       }
-
       .hero-actions {
         display: flex;
         gap: 16px;
@@ -313,8 +298,6 @@
         opacity: 0;
         animation: fadeUp 0.7s 1s forwards;
       }
-
-      /* stat strip */
       .hero-stats {
         display: flex;
         gap: 36px;
@@ -336,7 +319,6 @@
         color: var(--muted);
         margin-top: 4px;
       }
-
       @keyframes fadeUp {
         from {
           opacity: 0;
@@ -347,7 +329,6 @@
           transform: translateY(0);
         }
       }
-
       .btn {
         font-family: "DM Mono", monospace;
         font-size: 0.72rem;
@@ -379,7 +360,7 @@
         color: var(--paper);
       }
 
-      /* Hero right */
+      /* HERO RIGHT */
       .hero-right {
         position: relative;
         overflow: hidden;
@@ -444,8 +425,6 @@
         bottom: 40px;
         left: 20px;
       }
-
-      /* animated ring */
       .deco-ring {
         position: absolute;
         border-radius: 50%;
@@ -464,7 +443,6 @@
           transform: translate(-50%, -50%) rotate(360deg);
         }
       }
-
       .scroll-hint {
         position: absolute;
         bottom: 40px;
@@ -496,11 +474,10 @@
         }
       }
 
-      /* ── SECTION SHARED ── */
+      /* SECTIONS */
       section {
         padding: 100px 8%;
       }
-
       .section-label {
         font-family: "DM Mono", monospace;
         font-size: 0.68rem;
@@ -519,7 +496,6 @@
         background: var(--border);
         max-width: 80px;
       }
-
       .section-title {
         font-family: "Playfair Display", serif;
         font-size: clamp(2rem, 4vw, 3rem);
@@ -528,7 +504,7 @@
         margin-bottom: 60px;
       }
 
-      /* ── ABOUT ── */
+      /* ABOUT */
       #about {
         background: var(--cream);
         display: grid;
@@ -542,7 +518,6 @@
         color: var(--muted);
         margin-bottom: 24px;
       }
-
       .info-table {
         margin-top: 32px;
         border-top: 1px solid var(--border);
@@ -569,7 +544,6 @@
         color: var(--accent);
         text-decoration: none;
       }
-
       .skills-list {
         margin-top: 8px;
       }
@@ -603,7 +577,6 @@
         width: 0;
         transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
       }
-
       .edu-card {
         border: 1px solid var(--border);
         border-radius: 4px;
@@ -639,11 +612,61 @@
         color: var(--muted);
       }
 
-      /* ── TIMELINE ── */
+      /* BOOK LINK */
+      .guestbook-card-link {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        padding: 1.2rem 1.8rem;
+        margin-top: 1.5rem;
+        border-radius: 8px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        cursor: none;
+      }
+      .guestbook-card-link:hover {
+        transform: translateY(-3px);
+        border-color: var(--accent);
+        box-shadow: 0 8px 24px rgba(200, 80, 42, 0.15);
+      }
+      .guestbook-card-link:active {
+        transform: translateY(1px);
+      }
+      .card-icon {
+        font-size: 2rem;
+        line-height: 1;
+      }
+      .card-content {
+        flex: 1;
+      }
+      .card-title {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .card-desc {
+        margin: 4px 0 0 0;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .card-arrow {
+        font-size: 1.2rem;
+        color: var(--accent);
+        transition: transform 0.3s ease;
+      }
+      .guestbook-card-link:hover .card-arrow {
+        transform: translateX(5px);
+      }
+
+      /* TIMELINE */
       #timeline {
         background: var(--paper);
       }
-
       .timeline-wrap {
         position: relative;
         padding-left: 40px;
@@ -657,7 +680,6 @@
         width: 1px;
         background: var(--border);
       }
-
       .tl-item {
         position: relative;
         margin-bottom: 48px;
@@ -685,7 +707,6 @@
       .tl-item:hover::before {
         background: var(--accent);
       }
-
       .tl-year {
         font-family: "DM Mono", monospace;
         font-size: 0.65rem;
@@ -704,11 +725,10 @@
         line-height: 1.6;
       }
 
-      /* ── PROJECTS ── */
+      /* PROJECTS */
       #projects {
         background: var(--paper);
       }
-
       .project-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -743,7 +763,6 @@
       .project-card:hover::after {
         transform: scaleX(1);
       }
-
       .project-num {
         font-family: "DM Mono", monospace;
         font-size: 0.65rem;
@@ -792,19 +811,25 @@
         color: var(--accent);
         transform: translate(4px, -4px);
       }
+      .project-link {
+        font-family: "DM Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--accent);
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 12px;
+      }
 
-      /* ── CONTACT ── */
+      /* CONTACT */
       #contact {
         background: var(--cream);
       }
-
       .contact-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 80px;
         align-items: start;
       }
-
       .contact-info p {
         font-size: 0.95rem;
         line-height: 1.8;
@@ -841,8 +866,6 @@
         width: 20px;
         text-align: center;
       }
-
-      /* form */
       .contact-form {
         display: flex;
         flex-direction: column;
@@ -910,7 +933,7 @@
         display: block;
       }
 
-      /* ── FOOTER ── */
+      /* FOOTER */
       footer {
         background: var(--ink);
         color: var(--paper);
@@ -935,7 +958,6 @@
         letter-spacing: 0.12em;
         opacity: 0.4;
       }
-
       .footer-links {
         display: flex;
         gap: 24px;
@@ -955,7 +977,7 @@
         opacity: 1;
       }
 
-      /* ── REVEAL ── */
+      /* REVEAL */
       .reveal {
         opacity: 0;
         transform: translateY(30px);
@@ -967,67 +989,8 @@
         opacity: 1;
         transform: none;
       }
-      /* book*/
-      .guestbook-card-link {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    padding: 1.2rem 1.8rem;
-    max-width: 500px;
-    margin: 1.5rem auto;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    text-decoration: none;
-    color: inherit;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
 
-/* Hiệu ứng di chuột (Hover) */
-.guestbook-card-link:hover {
-    transform: translateY(-4px) scale(1.02);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-}
-
-.card-icon {
-    font-size: 2rem;
-    line-height: 1;
-}
-
-.card-content {
-    flex: 1;
-}
-
-.card-title {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-}
-
-.card-desc {
-    margin: 4px 0 0 0;
-    font-size: 0.85rem;
-    opacity: 0.7;
-}
-
-.card-arrow {
-    font-size: 1.2rem;
-    opacity: 0.5;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* Mũi tên nhích sang phải khi rê chuột vào */
-.guestbook-card-link:hover .card-arrow {
-    opacity: 1;
-    transform: translateX(5px);
-}
-
-      /* ── RESPONSIVE ── */
+      /* RESPONSIVE */
       @media (max-width: 768px) {
         .hero {
           grid-template-columns: 1fr;
@@ -1060,79 +1023,8 @@
         #cursor-trail {
           display: none;
         }
-        .guestbook {
-          margin-top: 60px;
-          padding-top: 40px;
-          border-top: 1px solid var(--border);
-          grid-column: 1/-1;
-        }
-        .gb-form {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          max-width: 480px;
-          margin-bottom: 24px;
-        }
-        .gb-toggle {
-          font-family: "DM Mono", monospace;
-          font-size: 0.72rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          padding: 10px 20px;
-          border: 1px solid var(--border);
-          background: transparent;
-          color: var(--muted);
-          border-radius: 3px;
-          cursor: pointer;
-          transition: all 0.2s;
-          margin-bottom: 16px;
-        }
-        .gb-toggle:hover {
-          border-color: var(--accent);
-          color: var(--accent);
-        }
-        .comments-box {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .comments-box.open {
-          max-height: 1000px;
-        }
-        .comment-item {
-          padding: 16px 0;
-          border-bottom: 1px solid var(--border);
-        }
-        .comment-item:last-child {
-          border-bottom: none;
-        }
-        .comment-header {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 6px;
-        }
-        .comment-name {
-          font-weight: 500;
-          font-size: 0.9rem;
-          color: var(--accent);
-        }
-        .comment-time {
-          font-family: "DM Mono", monospace;
-          font-size: 0.65rem;
-          color: var(--muted);
-        }
-        .comment-msg {
-          font-size: 0.88rem;
-          color: var(--muted);
-          line-height: 1.6;
-        }
-        
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-      emailjs.init("YOUR_PUBLIC_KEY");
-    </script>
   </head>
   <body>
     <!-- CURSOR -->
@@ -1166,11 +1058,16 @@
         </p>
         <div class="hero-actions">
           <a href="#projects" class="btn btn-solid">View Portfolio</a>
-        <a href="CV_EngfaPhan.pdf" class="btn btn-outline" download="CV_EngfaPhan.pdf">Download CV</a>
-  
+          <a
+            href="CV_EngfaPhan.pdf"
+            class="btn btn-outline"
+            download="CV_EngfaPhan.pdf"
+            >Download CV</a
+          >
         </div>
+        <!-- FIX: hero-stats đúng cấu trúc -->
         <div class="hero-stats">
-        </div>
+          <div>
             <div class="hero-stat-num">4+</div>
             <div class="hero-stat-label">Projects</div>
           </div>
@@ -1314,20 +1211,19 @@
             </div>
             <div class="skill-track">
               <div class="skill-fill" data-w="80"></div>
-               <!-- ĐẶT BOOK LINK Ở ĐÂY -->
-<a href="questbook/indexbook.html" class="guestbook-card-link">
-    <div class="card-icon">📖</div>
-    <div class="card-content">
-        <h4 class="card-title">Ghé thăm Guestbook</h4>
-        <p class="card-desc">Để lại vài dòng lời nhắn kỷ niệm tại đây nhé!</p>
-    </div>
-    <div class="card-arrow">➔</div>
-</a>
-
-    </div>      ← </div> đóng about-left
             </div>
           </div>
         </div>
+
+        <!-- FIX: Book link đúng chỗ — sau skills-list, trong about-right -->
+        <a href="quest%20book/indexbook.html" class="guestbook-card-link">
+          <div class="card-icon">📖</div>
+          <div class="card-content">
+            <h4 class="card-title">Lecturer's Feedback Book</h4>
+            <p class="card-desc">Comments & instructor's signature</p>
+          </div>
+          <div class="card-arrow">➔</div>
+        </a>
       </div>
     </section>
 
@@ -1339,7 +1235,6 @@
           >Timeline</em
         >
       </h2>
-
       <div class="timeline-wrap">
         <div class="tl-item">
           <div class="tl-year">2006</div>
@@ -1391,7 +1286,6 @@
           >Projects</em
         >
       </h2>
-
       <div class="project-grid">
         <div class="project-card reveal">
           <div class="project-arrow">↗</div>
@@ -1453,65 +1347,63 @@
           </p>
           <div class="contact-links">
             <a href="mailto:engfaphan@gmail.com" class="contact-link">
-              <span class="contact-link-icon">✉</span>
-              engfaphan@gmail.com
+              <span class="contact-link-icon">✉</span>engfaphan@gmail.com
             </a>
             <a
               href="https://github.com/engfa-phan201/engfaphan.github.io"
               target="_blank"
               class="contact-link"
             >
-              <span class="contact-link-icon">⌥</span>
-              github.com/engfaphan
+              <span class="contact-link-icon">⌥</span>github.com/engfaphan
             </a>
             <a
               href="https://linkedin.com/in/engfaphan"
               target="_blank"
               class="contact-link"
             >
-              <span class="contact-link-icon">Linked</span>
-              linkedin.com/in/engfaphan
+              <span class="contact-link-icon">in</span>linkedin.com/in/engfaphan
             </a>
             <a href="#" class="contact-link">
-              <span class="contact-link-icon">◈</span>
-              Tra Vinh, Vietnam
+              <span class="contact-link-icon">◈</span>Tra Vinh, Vietnam
             </a>
           </div>
         </div>
 
         <div class="contact-form-wrap reveal" style="transition-delay: 0.15s">
-          <div class="form-group">
-            <label class="form-label">Name</label>
-            <input
-              type="text"
-              class="form-input"
-              id="fname"
-              placeholder="Your name"
-            />
+          <div class="contact-form">
+            <div class="form-group">
+              <label class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-input"
+                id="fname"
+                placeholder="Your name"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-input"
+                id="femail"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea
+                class="form-textarea"
+                id="fmsg"
+                placeholder="Tell me about your project…"
+              ></textarea>
+            </div>
+            <p class="form-msg" id="form-msg">
+              ✓ Message sent! I'll get back to you soon.
+            </p>
+            <button class="form-submit" onclick="sendMessage()">
+              Send Message →
+            </button>
           </div>
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-input"
-              id="femail"
-              placeholder="your@email.com"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Message</label>
-            <textarea
-              class="form-textarea"
-              id="fmsg"
-              placeholder="Tell me about your project…"
-            ></textarea>
-          </div>
-          <p class="form-msg" id="form-msg">
-            ✓ Message sent! I'll get back to you soon.
-          </p>
-          <button class="form-submit" onclick="sendForm()">
-            Send Message →
-          </button>
         </div>
       </div>
     </section>
@@ -1536,7 +1428,7 @@
     </footer>
 
     <script>
-      // ── DARK MODE ──
+      // DARK MODE
       function toggleDark() {
         document.body.classList.toggle("dark");
         localStorage.setItem(
@@ -1547,7 +1439,7 @@
       if (localStorage.getItem("theme") === "dark")
         document.body.classList.add("dark");
 
-      // ── CUSTOM CURSOR ──
+      // CURSOR
       const cur = document.getElementById("cursor");
       const trail = document.getElementById("cursor-trail");
       let mx = 0,
@@ -1573,7 +1465,7 @@
           );
         });
 
-      // ── TYPING ANIMATION ──
+      // TYPING
       const roles = [
         "Building thoughtful digital experiences",
         "Turning ideas into elegant code",
@@ -1583,7 +1475,6 @@
         ci = 0,
         deleting = false;
       const roleEl = document.getElementById("typing-role");
-
       function type() {
         const txt = roles[ri];
         if (!deleting) {
@@ -1610,7 +1501,7 @@
       }
       setTimeout(type, 1200);
 
-      // ── REVEAL ON SCROLL ──
+      // REVEAL
       const reveals = document.querySelectorAll(".reveal, .tl-item");
       const revealObs = new IntersectionObserver(
         (entries) => {
@@ -1622,7 +1513,7 @@
       );
       reveals.forEach((r) => revealObs.observe(r));
 
-      // ── SKILL BARS ──
+      // SKILL BARS
       const fills = document.querySelectorAll(".skill-fill");
       const skillObs = new IntersectionObserver(
         (entries) => {
@@ -1637,56 +1528,62 @@
       );
       fills.forEach((f) => skillObs.observe(f));
 
-      // ── CONTACT FORM ──
-      function sendForm() {
-        sendMessage();
-      }
-
+      // CONTACT FORM
       function sendMessage() {
         const btn = document.querySelector(".form-submit");
         const n = document.getElementById("fname").value.trim();
         const e = document.getElementById("femail").value.trim();
         const m = document.getElementById("fmsg").value.trim();
-
-        // Validation
         if (!n || !e || !m) {
-          showFormError("Please fill in all fields!");
+          showFormMsg("✗ Please fill in all fields!", "#ef4444");
           return;
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
-          showFormError("Please enter a valid email address!");
+          showFormMsg("✗ Please enter a valid email!", "#ef4444");
           return;
         }
-
-        // Loading state
         btn.disabled = true;
         btn.textContent = "Sending...";
-
-        // Gửi qua EmailJS
-        // Sau khi đăng ký emailjs.com → thay 3 giá trị YOUR_... bên dưới
-        // Khởi tạo EmailJS
-(function() {
-    // Thay "YOUR_PUBLIC_KEY" bằng Public Key bạn lấy từ EmailJS Account
-    emailjs.init("YOUR_PUBLIC_KEY"); 
-})();
-
-// Xử lý gửi Form liên hệ
-const contactForm = document.getElementById('contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        // Thay YOUR_SERVICE_ID và YOUR_TEMPLATE_ID bằng ID từ tài khoản EmailJS của bạn
-        emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
-            .then(function() {
-                alert('Cảm ơn bạn! Tin nhắn đã được gửi thành công.');
-                contactForm.reset();
-            }, function(error) {
-                alert('Không thể gửi tin nhắn. Vui lòng kiểm tra lại cấu hình EmailJS!');
-                console.error('EmailJS Error:', error);
-            });
-    });
-}
+        emailjs
+          .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            from_name: n,
+            from_email: e,
+            message: m,
+            to_email: "engfaphan@gmail.com",
+          })
+          .then(() => {
+            showFormMsg(
+              "✓ Message sent! I'll get back to you soon.",
+              "#22c55e",
+            );
+            document.getElementById("fname").value = "";
+            document.getElementById("femail").value = "";
+            document.getElementById("fmsg").value = "";
+            btn.textContent = "Sent ✓";
+            btn.style.background = "#22c55e";
+            setTimeout(() => {
+              btn.textContent = "Send Message →";
+              btn.style.background = "";
+              btn.disabled = false;
+            }, 4000);
+          })
+          .catch((err) => {
+            console.error(err);
+            showFormMsg(
+              "✗ Failed. Please email: engfaphan@gmail.com",
+              "#ef4444",
+            );
+            btn.textContent = "Send Message →";
+            btn.disabled = false;
+          });
+      }
+      function showFormMsg(msg, color) {
+        const el = document.getElementById("form-msg");
+        el.textContent = msg;
+        el.style.color = color;
+        el.classList.add("show");
+        setTimeout(() => el.classList.remove("show"), 4000);
+      }
     </script>
   </body>
 </html>
