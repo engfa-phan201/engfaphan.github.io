@@ -967,6 +967,65 @@
         opacity: 1;
         transform: none;
       }
+      /* book*/
+      .guestbook-card-link {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.8rem;
+    max-width: 500px;
+    margin: 1.5rem auto;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Hiệu ứng di chuột (Hover) */
+.guestbook-card-link:hover {
+    transform: translateY(-4px) scale(1.02);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.card-desc {
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.card-arrow {
+    font-size: 1.2rem;
+    opacity: 0.5;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Mũi tên nhích sang phải khi rê chuột vào */
+.guestbook-card-link:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(5px);
+}
 
       /* ── RESPONSIVE ── */
       @media (max-width: 768px) {
@@ -1076,11 +1135,6 @@
     </script>
   </head>
   <body>
-    <!--link book-->
-    <a href="indexbook.html" class="book-link"> ✦Teacher Evaluation Book </a>
-    <span class="book-link-title">📖 Lecturer's Feedback Book </span>
-    <span class="book-link-sub">Comments & instructor's signature</span>
-    <span class="book-link-arrow">→</span>
     <!-- CURSOR -->
     <div id="cursor"></div>
     <div id="cursor-trail"></div>
@@ -1112,12 +1166,11 @@
         </p>
         <div class="hero-actions">
           <a href="#projects" class="btn btn-solid">View Portfolio</a>
-          <a href="path/to/your-cv.pdf" class="btn btn-outline" download
-            >Download CV</a
-          >
+        <a href="CV_EngfaPhan.pdf" class="btn btn-outline" download="CV_EngfaPhan.pdf">Download CV</a>
+  
         </div>
         <div class="hero-stats">
-          <div>
+        </div>
             <div class="hero-stat-num">4+</div>
             <div class="hero-stat-label">Projects</div>
           </div>
@@ -1262,11 +1315,14 @@
             <div class="skill-track">
               <div class="skill-fill" data-w="80"></div>
                <!-- ĐẶT BOOK LINK Ở ĐÂY -->
-      <a href="quest%20book/indexbook.html" class="book-link">
-        <span class="book-link-title">📖 Lecturer's Feedback Book</span>
-        <span class="book-link-sub">Comments & instructor's signature</span>
-        <span class="book-link-arrow">→</span>
-      </a>
+<a href="questbook/indexbook.html" class="guestbook-card-link">
+    <div class="card-icon">📖</div>
+    <div class="card-content">
+        <h4 class="card-title">Ghé thăm Guestbook</h4>
+        <p class="card-desc">Để lại vài dòng lời nhắn kỷ niệm tại đây nhé!</p>
+    </div>
+    <div class="card-arrow">➔</div>
+</a>
 
     </div>      ← </div> đóng about-left
             </div>
@@ -1469,7 +1525,7 @@
         </div>
       </div>
       <div class="footer-links">
-        <a href="engfaphan@gmail.com">Email</a>
+        <a href="mailto:engfaphan@gmail.com">Email</a>
         <a
           href="https://github.com/engfa-phan201/engfaphan.github.io"
           target="_blank"
@@ -1608,53 +1664,29 @@
 
         // Gửi qua EmailJS
         // Sau khi đăng ký emailjs.com → thay 3 giá trị YOUR_... bên dưới
-        emailjs
-          .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-            from_name: n,
-            from_email: e,
-            message: m,
-            to_email: "engfaphan@gmail.com",
-          })
-          .then(() => {
-            // Thành công
-            const msg = document.getElementById("form-msg");
-            msg.textContent = "✓ Message sent! I'll get back to you soon.";
-            msg.style.color = "#22c55e";
-            msg.classList.add("show");
+        // Khởi tạo EmailJS
+(function() {
+    // Thay "YOUR_PUBLIC_KEY" bằng Public Key bạn lấy từ EmailJS Account
+    emailjs.init("YOUR_PUBLIC_KEY"); 
+})();
 
-            // Reset form
-            document.getElementById("fname").value = "";
-            document.getElementById("femail").value = "";
-            document.getElementById("fmsg").value = "";
-
-            btn.textContent = "Sent ✓";
-            btn.style.background = "#22c55e";
-
-            setTimeout(() => {
-              msg.classList.remove("show");
-              btn.textContent = "Send Message →";
-              btn.style.background = "";
-              btn.disabled = false;
-            }, 4000);
-          })
-          .catch((err) => {
-            // Thất bại
-            console.error("EmailJS error:", err);
-            showFormError(
-              "Failed to send. Please email directly: engfaphan@gmail.com",
-            );
-            btn.textContent = "Send Message →";
-            btn.disabled = false;
-          });
-      }
-
-      function showFormError(msg) {
-        const el = document.getElementById("form-msg");
-        el.textContent = "✗ " + msg;
-        el.style.color = "#ef4444";
-        el.classList.add("show");
-        setTimeout(() => el.classList.remove("show"), 4000);
-      }
+// Xử lý gửi Form liên hệ
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Thay YOUR_SERVICE_ID và YOUR_TEMPLATE_ID bằng ID từ tài khoản EmailJS của bạn
+        emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+            .then(function() {
+                alert('Cảm ơn bạn! Tin nhắn đã được gửi thành công.');
+                contactForm.reset();
+            }, function(error) {
+                alert('Không thể gửi tin nhắn. Vui lòng kiểm tra lại cấu hình EmailJS!');
+                console.error('EmailJS Error:', error);
+            });
+    });
+}
     </script>
   </body>
 </html>
