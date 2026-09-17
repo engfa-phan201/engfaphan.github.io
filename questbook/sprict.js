@@ -682,7 +682,7 @@
     .addEventListener("click", function (e) {
       const chip = e.target.closest(".pg-chip");
       if (!chip) return;
-      const idx = panelInt(chip.dataset.idx);
+      const idx = parseInt(chip.dataset.idx);
       if (idx === cur) {
         togglePagePanel();
         return;
