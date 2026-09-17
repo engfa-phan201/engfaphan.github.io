@@ -734,6 +734,9 @@ body {
 }
 .panel-toggle-btn {
   display: flex;
+  color: #7a6a5a;
+  background: transparent;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 6px;
@@ -744,8 +747,41 @@ body {
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  font-family: "josefin Sans", sans-serif;
-  transition: 15s;
+  font-family: "Josefin Sans", sans-serif;
+  transition: 0.15s;
+  user-select: none;
+}
+.page-panel {
+  max-height: 0;
+  overflow: hidden;
+  background: #f5f0e5;
+  transition: max-height 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.page-panel.open {
+  max-height: 200px;
+  border-top: 1px solid #d8d0c0;
+  overflow-y: auto;
+}
+.page-panel-inner {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  padding: 0.6rem 0.75rem;
+}
+.pg-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  border-radius: 3px;
+  border: 1px solid #c8b890;
+  background: #fdfaf5;
+  font-size: 10px;
+  color: #8a7a6a;
+  cursor: pointer;
+  font-family: "Josefin Sans", sans-serif;
+  transition: 0.15s;
   user-select: none;
 }
 .pg-chip:hover {

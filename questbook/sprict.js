@@ -95,7 +95,7 @@
     canvas.style.width = w + "px";
     canvas.style.height = h + "px";
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(dpr, dpr);
+    sctx.scale(dpr, dpr);
 
     buildRuledLines(h);
 
@@ -115,7 +115,7 @@
     scv.style.width = w + "px";
     scv.style.height = "80px";
     sctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(dpr, dpr);
+    sctx.scale(dpr, dpr);
 
     if (pages[cur] && pages[cur].sig) {
       const img = new Image();
@@ -522,6 +522,7 @@
       typeArea.value = p.text || "";
       updateCharCount();
       updateNavUI();
+      refreshPanelChips(); // cập nhật chip sau khi lật trang
     }, 230);
   }
 
@@ -542,6 +543,7 @@
       sigOpen: false,
     });
     goToPage(pages.length - 1);
+    setTimeout(() => refreshPanelChips(), 250); // cập nhật chip sau khi thêm trang
   });
 
   document.getElementById("pageGo").addEventListener("click", jumpPage);
@@ -678,7 +680,7 @@
       : "Page list";
   }
   document
-    .getElementById("panelPageInner")
+    .getElementById("pagePanelInner")
     .addEventListener("click", function (e) {
       const chip = e.target.closest(".pg-chip");
       if (!chip) return;
