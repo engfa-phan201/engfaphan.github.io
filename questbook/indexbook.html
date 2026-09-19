@@ -224,6 +224,24 @@
     </div>
     <!-- end .book-wrap -->
 
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Init -->
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAj2k3JdpJJ0whhjY5eyJDsrkd6xGOCu6o",
+        authDomain: "engfa-questbook.firebaseapp.com",
+        projectId: "engfa-questbook",
+        storageBucket: "engfa-questbook.firebasestorage.app",
+        messagingSenderId: "997136803890",
+        appId: "1:997136803890:web:19adf8473b75a0cdec342b",
+      };
+      firebase.initializeApp(firebaseConfig);
+      window.fbDb = firebase.firestore();
+      console.log("✅ Firebase connected!");
+    </script>
+    <!-- Questbook JS -->
     <script src="sprict.js"></script>
   </body>
 </html>
