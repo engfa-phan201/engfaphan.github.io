@@ -436,7 +436,6 @@
   }
 
   function saveToStorage() {
-    // 1. Lưu localStorage như cũ (backup local)
     try {
       const store = {
         pages: pages.map((p) => ({
@@ -449,30 +448,7 @@
       };
       localStorage.setItem("portfolio-book", JSON.stringify(store));
     } catch (err) {
-      console.warn("Lỗi lưu localStorage:", err);
-    }
-
-    // 2. Lưu lên Firebase Firestore
-    if (window.fbDb && window.fbSetDoc && window.fbDoc) {
-      const pageData = {
-        pageNum: cur + 1,
-        text: pages[cur].text || "",
-        sig: pages[cur].sig || null,
-        canvas: pages[cur].canvas || null,
-        savedAt: new Date().toISOString(),
-        lang: lang,
-      };
-      window
-        .fbSetDoc(
-          window.fbDoc(window.fbDb, "questbook", "page-" + (cur + 1)),
-          pageData,
-        )
-        .then(() => {
-          console.log("✅ Firebase: đã lưu trang " + (cur + 1));
-        })
-        .catch((err) => {
-          console.warn("⚠️ Firebase lỗi:", err);
-        });
+      console.warn("Lỗi lưu storage:", err);
     }
   }
 
@@ -630,56 +606,28 @@
     applyLang();
   });
 
-  /* LOAD FROM STORAGE */
+  /* LOAD FROM STORAGE*/
   function loadFromStorage() {
-    // Load từ localStorage trước (nhanh, offline)
     try {
       const raw = localStorage.getItem("portfolio-book");
-      if (raw) {
-        const store = JSON.parse(raw);
-        if (store.pages && store.pages.length > 0) {
-          store.pages.forEach((p, i) => {
-            if (i < MAX_PAGES) pages[i] = p;
-          });
-          cur = 0;
-          const p = pages[0];
-          const sigWrap = document.getElementById("sigWrap");
-          sigWrap.classList.toggle("open", !!p.sigOpen);
-          switchMode(p.mode || "draw");
-          loadCanvas(0);
-          typeArea.value = p.text || "";
-          updateCharCount();
-        }
+      if (!raw) return;
+      const store = JSON.parse(raw);
+      if (store.pages && store.pages.length > 0) {
+        // merge — giữ MAX_PAGES, ghép data đã lưu vào
+        store.pages.forEach((p, i) => {
+          if (i < MAX_PAGES) pages[i] = p;
+        });
+        cur = 0;
+        const p = pages[0];
+        const sigWrap = document.getElementById("sigWrap");
+        sigWrap.classList.toggle("open", !!p.sigOpen);
+        switchMode(p.mode || "draw");
+        loadCanvas(0);
+        typeArea.value = p.text || "";
+        updateCharCount();
       }
     } catch (err) {
-      console.warn("Lỗi đọc localStorage:", err);
-    }
-  }
-
-  /* LOAD TẤT CẢ TRANG TỪ FIREBASE (xem lại nhận xét) */
-  async function loadAllFromFirebase() {
-    if (!window.fbDb || !window.fbGetDocs || !window.fbCollection) return;
-    try {
-      const snapshot = await window.fbGetDocs(
-        window.fbCollection(window.fbDb, "questbook"),
-      );
-      if (snapshot.empty) return;
-      snapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        const idx = (data.pageNum || 1) - 1;
-        if (idx >= 0 && idx < MAX_PAGES) {
-          pages[idx].text = data.text || "";
-          pages[idx].sig = data.sig || null;
-          pages[idx].canvas = data.canvas || null;
-        }
-      });
-      console.log("✅ Firebase: đã load " + snapshot.size + " trang");
-      loadCanvas(cur);
-      typeArea.value = pages[cur].text || "";
-      updateCharCount();
-      refreshPanelChips();
-    } catch (err) {
-      console.warn("⚠️ Firebase load lỗi:", err);
+      console.warn("Lỗi đọc storage:", err);
     }
   }
 
@@ -695,8 +643,6 @@
   resizeSig();
   loadFromStorage();
   applyLang();
-  // Load từ Firebase sau 1 giây (không block UI)
-  setTimeout(loadAllFromFirebase, 1000);
 
   function buildPagePanel() {
     const inner = document.getElementById("pagePanelInner");
